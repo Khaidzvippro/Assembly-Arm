@@ -1,0 +1,26 @@
+; TICH VO HUONG CUA 2 VECTO
+	AREA RESET, DATA, READONLY
+	DCD 0x20000000
+	DCD Main
+V1	DCB 1, 2, 3, 4
+V2	DCB 2, 2, 1, 1
+length DCB 4
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+Main
+	LDR R0, =V1
+	LDR R1, =V2
+	LDRB R2, length
+	MOV  R3, #0
+Loop
+	LDRB R4, [R0], #1
+	LDRB R5, [R1], #1
+	MUL  R6, R4, R5
+	ADD  R3, R3, R6
+	SUBS R2, R2, #1
+	BNE  Loop
+	
+	
+	SWI &11
+	
+	END
